@@ -1,11 +1,24 @@
 
 import React from 'react';
+import Comment from '../components/comment';
 
 type SidebarProps = {
-    comments: any, selectedLuminaire: string | null, dispatch: React.ActionDispatch
+    comments: any, selectedLuminaire: string | null
 }
 
-const Sidebar = ({ comments, selectedLuminaire, dispatch }: SidebarProps) => {
+export interface CommentProps {
+    id: string,
+    status: 'pending' | 'resolved' | 'modified',
+    message: string,
+    author: string,
+    createdAt: Date,
+    updatedAt: string,
+    onClick?: () => void
+}
+    
+
+
+const Sidebar = ({ comments, selectedLuminaire }: SidebarProps) => {
 
     if (!selectedLuminaire) {
         return (<SidebarPlaceholder />)
@@ -13,7 +26,19 @@ const Sidebar = ({ comments, selectedLuminaire, dispatch }: SidebarProps) => {
 
     return (
         <aside style={{display: 'flex', alignContent:'center' }} >
-            <div>Comments</div>
+            {comments["comments"].map((comment: CommentProps) => (
+                <Comment
+                    key={comment.id}
+                    id={comment.id}
+                    status={comment.status}
+                    message={comment.message}
+                    author={comment.author}
+                    createdAt={comment.createdAt}
+                    updatedAt={comment.updatedAt}
+                    onClick={comment.onClick}
+                />
+            ))}   
+            
         </aside>
     )
 

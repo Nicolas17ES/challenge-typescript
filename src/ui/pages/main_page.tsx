@@ -3,9 +3,9 @@ import React from 'react';
 import _ from 'lodash'
 
 import { Scene } from '../layout/scene'
-import { Sidebar } from '../layout/sidebar'; 
+import { CommentProps, Sidebar } from '../layout/sidebar'; 
+import Luminaire from '../components/luminaire';
 
-import { Luminaire } from '../components/luminaire';
 
 function commentsReducer(state: any, action: { type: any; }) {
     switch (action.type) {
@@ -25,11 +25,51 @@ const mockedLuminaires = [
     { "id": "light-03", "label": "Luz Ambiente Lateral" }
 ]
 
+const comments: CommentProps[] = [
+    {
+        id: 'comment-001',
+        status: 'pending',
+        message: 'This luminaire needs adjustment in brightness.',
+        author: 'John Doe',
+        createdAt: new Date('2023-6-01T10:00:00Z'),
+        updatedAt: '2023-10-01T10:00:00Z',
+        onClick: () => console.log('Comment clicked')
+    },
+    {
+        id: 'comment-002',
+        status: 'pending',
+        message: 'This luminaire needs adjustment in brightness.',
+        author: 'John Doe',
+        createdAt: new Date('2023-8-01T10:00:00Z'),
+        updatedAt: '2023-10-01T10:00:00Z',
+        onClick: () => console.log('Comment clicked')
+    },
+    {
+        id: 'comment-003',
+        status: 'resolved',
+        message: 'This luminaire needs adjustment in brightness.',
+        author: 'Marcus Doe',
+        createdAt: new Date('2023-12-01T10:00:00Z'),
+        updatedAt: '2023-10-01T10:00:00Z',
+        onClick: () => console.log('Comment clicked')
+    },
+    {
+        id: 'comment-004',
+        status: 'resolved',
+        message: 'This luminaire needs adjustment in brightness.',
+        author: 'Marcus Doe',
+        createdAt: new Date('2023-12-01T10:00:00Z'),
+        updatedAt: '2023-10-01T10:00:00Z',
+        onClick: () => console.log('Comment clicked')
+    },
+]
+
 const MainPage = () => {
 
-    const [state, dispatch] = React.useReducer(commentsReducer, {})
+    const [state, dispatch] = React.useReducer(commentsReducer, {comments: comments})
     const [selectedLuminaire, setSelectedLuminaire] = React.useState<string|null>(null)
-    const handleSelectLuminaire = ({ luminaire_id }: {luminaire_id:string}) => {
+    const handleSelectLuminaire = (luminaire_id: string) => {
+        console.log('luminaire_id', luminaire_id)
         setSelectedLuminaire(luminaire_id)
     }
 
@@ -48,7 +88,7 @@ const MainPage = () => {
                     </div>
                 </React.Fragment>
             </Scene>
-            <Sidebar comments={state} selectedLuminaire={selectedLuminaire} dispatch={dispatch}/>
+            <Sidebar comments={state} selectedLuminaire={selectedLuminaire}/>
         </div>
     )
 
